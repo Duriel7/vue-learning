@@ -2,6 +2,35 @@
 <html lang="en">
 <head>
   <title>My first Vue page</title>
+    <style>
+        #app2 {
+            border: dashed black 1px;
+            display: inline-block;
+            padding: 0 20px;
+        }
+        #app2 label, #app2 li {
+            padding: 5px;
+            border-radius: 5px;
+        }
+            #app2 label:hover, #app2 li:hover {
+            cursor: pointer;
+            background-color: lightgray;
+        }
+        ul {
+            list-style-type: none;
+        }
+        li {
+            margin: 2px;
+            background-color: rgb(255, 202, 202);
+        }
+        .impClass {
+            background-color: rgb(211, 254, 211);
+        }
+        #found li {
+            text-decoration: line-through;
+            background-color: rgb(230,230,230);
+        }
+    </style>
 </head>
 <body>
     <div id="app1">
@@ -12,16 +41,41 @@
 
     <div id="app2">
         <form v-on:submit.prevent="addItem">
-            <p>Add item</p>
-            <p>Item name: <input type="text" required v-model="itemName"></p>
-            <p>How many: <input type="number" v-model="itemNumber"></p>
+            <p>Add item to list</p>
+            <p>Item name: <input type="text" required placeholder="name..." v-model="itemName"></p>
+            <p>How many: <input type="number"  placeholder="number..."v-model="itemNumber"></p>
+            <p>
+                Important?
+                <label>
+                    <input type="checkbox" v-model="itemImportant">
+                    {{ itemImportant }}
+                </label>
+            </p>
+
             <button type="submit">Add item</button>
         </form>
 
-        <p>Shopping list:</p>
-        <ul>
-            <li v-for="item in shoppingList">{{item.name}}, {{item.number}}</li>
-        </ul>
+        <br><hr>
+
+        <div>
+            <p><strong>Shopping list:</strong></p>
+            <ul id="toFind">
+                <li v-for="item in shoppingList"
+                    v-bind:class="{ impClass: item.important }"
+                    v-on:click="item.found = !item.found"
+                    v-show="!item.found">
+                        {{item.name}}, {{item.number}}
+                </li>
+            </ul>
+            <ul id="found">
+                <li v-for="item in shoppingList"
+                    v-bind:class="{ impClass: item.important }"
+                    v-on:click="item.found = !item.found"
+                    v-show="item.found">
+                        {{item.name}}, {{item.number}}
+                </li>
+            </ul>
+        </div>
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -50,20 +104,24 @@
                 return {
                     itemName: null,
                     itemNumber: null,
+                    itemImportant: false,
                     shoppingList: [ ]
                 }
             },
             methods: {
                 addItem() {
                     let item = {
-                    name: this.itemName,
-                    number: this.itemNumber
+                        name: this.itemName,
+                        number: this.itemNumber,
+                        important: this.itemImportant,
+                        found: false
                     }
                     this.shoppingList.push(item);
                     this.itemName = null
                     this.itemNumber = null
+                    this.itemImportant = false
                 }
-                }
+            }
         }) 
         
         app1.mount('#app1')
