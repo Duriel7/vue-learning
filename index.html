@@ -5,9 +5,9 @@
 </head>
 <body>
     <div id="app">
-        <img src="img_moose.jpg">
-        <p>{{ "Moose count: " + count }}</p>
-        <button v-on:click="count++">Count moose</button>
+        <p>{{ "Counter: " + count }}</p>
+        <p>{{ "Text: " + text }}</p>
+        <button v-on:click="operation(count); textShow(text)">Count</button>
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -15,9 +15,19 @@
     <script>
     const app = Vue.createApp({
         data() {
-        return {
-            count: 0
-        }
+            let count = 0
+            let text = ""
+            return {
+                count, text
+            }
+        },
+        methods: {
+            operation(value) {
+                this.count++
+            },
+            textShow(value) {
+                this.text = "Hello World + counter = " + this.count
+            }
         }
     })
     app.mount('#app')
