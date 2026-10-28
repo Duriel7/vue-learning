@@ -43,7 +43,7 @@
         <form v-on:submit.prevent="addItem">
             <p>Add item to list</p>
             <p>Item name: <input type="text" required placeholder="name..." v-model="itemName"></p>
-            <p>How many: <input type="number"  placeholder="number..."v-model="itemNumber"></p>
+            <p>How many: <input type="number"  placeholder="number..." v-model="itemNumber"></p>
             <p>
                 Important?
                 <label>
@@ -60,18 +60,16 @@
         <div>
             <p><strong>Shopping list:</strong></p>
             <ul id="toFind">
-                <li v-for="item in shoppingList"
+                <li v-for="item in itemsToFind"
                     v-bind:class="{ impClass: item.important }"
-                    v-on:click="item.found = !item.found"
-                    v-show="!item.found">
+                    v-on:click="item.found = !item.found">
                         {{item.name}}, {{item.number}}
                 </li>
             </ul>
             <ul id="found">
-                <li v-for="item in shoppingList"
+                <li v-for="item in itemsFound"
                     v-bind:class="{ impClass: item.important }"
-                    v-on:click="item.found = !item.found"
-                    v-show="item.found">
+                    v-on:click="item.found = !item.found">
                         {{item.name}}, {{item.number}}
                 </li>
             </ul>
@@ -106,16 +104,22 @@
                     itemNumber: null,
                     itemImportant: false,
                     shoppingList: [
-                        { name: "Lait", number: 1, important: false, found:false },
+                        { name: "Lait", number: 1, important: true, found:false },
                         { name: "Pain", number: 2, important: false, found: true },
-                        { name: "Oeufs", number: 12, important: true, found: false },
-                        { name: "Beurre", number: 1, important: false, found: true }
+                        { name: "Oeufs", number: 12, important: true, found: true },
+                        { name: "Beurre", number: 1, important: false, found: false }
                     ]
                 }
             },
             computed: {
                 isImportant() {
                     return this.itemImportant ? "Yes" : "No"
+                },
+                itemsFound() {
+                    return this.shoppingList.filter(item => item.found)
+                },
+                itemsToFind() {
+                    return this.shoppingList.filter(item => !item.found)
                 }
             },
             methods: {
