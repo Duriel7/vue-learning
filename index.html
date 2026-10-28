@@ -48,7 +48,7 @@
                 Important?
                 <label>
                     <input type="checkbox" v-model="itemImportant">
-                    {{ itemImportant }}
+                    {{ isImportant }}
                 </label>
             </p>
 
@@ -105,7 +105,17 @@
                     itemName: null,
                     itemNumber: null,
                     itemImportant: false,
-                    shoppingList: [ ]
+                    shoppingList: [
+                        { name: "Lait", number: 1, important: false, found:false },
+                        { name: "Pain", number: 2, important: false, found: true },
+                        { name: "Oeufs", number: 12, important: true, found: false },
+                        { name: "Beurre", number: 1, important: false, found: true }
+                    ]
+                }
+            },
+            computed: {
+                isImportant() {
+                    return this.itemImportant ? "Yes" : "No"
                 }
             },
             methods: {
