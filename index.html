@@ -111,6 +111,16 @@
                     ]
                 }
             },
+            watch: {
+                itemNumber(val) {
+                    if (val <= 0) {
+                        this.itemNumber = 1
+                    }
+                    else if (val > 100) {
+                        this.itemNumber = 100
+                    }
+                }
+            },
             computed: {
                 itemsFound() {
                     return this.shoppingList.filter(item => item.found)
