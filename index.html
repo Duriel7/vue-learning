@@ -48,7 +48,7 @@
                 Important?
                 <label>
                     <input type="checkbox" v-model="itemImportant">
-                    {{ isImportant }}
+                    {{ itemImportant ? "Yes" : "No" }}
                 </label>
             </p>
 
@@ -112,9 +112,6 @@
                 }
             },
             computed: {
-                isImportant() {
-                    return this.itemImportant ? "Yes" : "No"
-                },
                 itemsFound() {
                     return this.shoppingList.filter(item => item.found)
                 },
